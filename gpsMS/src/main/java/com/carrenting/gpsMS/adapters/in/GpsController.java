@@ -2,10 +2,10 @@ package com.carrenting.gpsMS.adapters.in;
 
 import com.carrenting.gpsMS.ports.data.Gps;
 import com.carrenting.gpsMS.ports.in.GpsManager;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/gps")
@@ -22,5 +22,17 @@ public class GpsController {
     @PostMapping
     public void createGpsRecord(@RequestBody Gps gps) {
         gpsManager.createGpsRecord(gps);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Gps>> getAllGpsLocations() {
+        List<Gps> gpsLocations = gpsManager.getAllGpsLocations();
+        return ResponseEntity.ok(gpsLocations);
+    }
+
+    @GetMapping("/current")
+    public ResponseEntity<List<Gps>> getNewestGpsLocationsPerCar() {
+        List<Gps> newestGpsLocations = gpsManager.getNewestGpsLocationsPerCar();
+        return ResponseEntity.ok(newestGpsLocations);
     }
 }

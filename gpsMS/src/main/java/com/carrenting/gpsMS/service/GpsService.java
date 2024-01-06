@@ -5,7 +5,9 @@ import com.carrenting.gpsMS.ports.in.GpsManager;
 import com.carrenting.gpsMS.ports.out.GpsRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class GpsService implements GpsManager {
@@ -13,16 +15,6 @@ public class GpsService implements GpsManager {
 
     public GpsService(GpsRepository gpsRepository) {
         this.gpsRepository = gpsRepository;
-    }
-
-    // Constructor for dependency injection
-
-    public Gps createGpsRecord(Integer carId) {
-        Gps gps = new Gps();
-        gps.setCarId(carId);
-        gps.setTimestamp(new Date());
-        gps.setLocation(generateRandomLocation()); // Implement this method
-        return gpsRepository.save(gps);
     }
 
     private String generateRandomLocation() {
@@ -41,5 +33,30 @@ public class GpsService implements GpsManager {
             gps.setLocation(generateRandomLocation());
         return gpsRepository.save(gps);
     }
+
+    public List<Gps> getAllGpsLocations() {
+        return gpsRepository.findAll();
+    }
+
+    @Override
+    public List<Gps> getNewestGpsLocationsPerCar() {
+        List<Gps> allGps = getAllGpsLocations();
+        if (allGps != null) {
+            return allGps.stream()
+                    .collect(Collectors.groupingBy(
+                            Gps::getCarId, // Group by carId
+                            Collectors.maxBy(Comparator.comparing(Gps::getTimestamp)) // Get the latest GPS record
+                    ))
+                    .values()
+                    .stream()
+                    .filter(Optional::isPresent) // Filter out any empty optionals
+                    .map(Optional::get) // Extract the Gps record from the optional
+                    .collect(Collectors.toList());
+        } else {
+            return null;
+        }
+
+    }
+
 }
 

@@ -22,7 +22,7 @@ public class Gps {
     private Date timestamp;
     private String location;
 
-    public Integer getCarId() {
+    public int getCarId() {
         return carId;
     }
 }
