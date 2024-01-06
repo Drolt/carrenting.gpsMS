@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/gps")
+@RequestMapping("/api/gps")
 public class GpsController {
     private final GpsManager gpsManager;
 
@@ -29,6 +29,7 @@ public class GpsController {
         List<Gps> gpsLocations = gpsManager.getAllGpsLocations();
         return ResponseEntity.ok(gpsLocations);
     }
+
 
     @GetMapping("/current")
     public ResponseEntity<List<Gps>> getNewestGpsLocationsPerCar() {

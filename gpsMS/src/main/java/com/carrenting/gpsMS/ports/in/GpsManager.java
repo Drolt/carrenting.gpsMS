@@ -6,5 +6,5 @@ import java.util.List;
 public interface GpsManager {
     Gps createGpsRecord(Gps gps);
     List<Gps> getAllGpsLocations();
-    List<Gps> getNewestGpsLocationsPerCar();
+    List<Gps> getNewestGpsLocationsPerCar();    //This
 }
