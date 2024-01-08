@@ -17,6 +17,7 @@ public class GpsController {
         this.gpsManager = gpsManager;
     }
 
+    //http://localhost:8090/api/gps
     /*{"carId": 12345,
        "location": "Latitude: -34.782804, Longitude: -118.828790"}*/
     @PostMapping
@@ -24,15 +25,14 @@ public class GpsController {
         gpsManager.createGpsRecord(gps);
     }
 
-
-
+    //http://localhost:8090/gps
     @GetMapping
     public ResponseEntity<List<Gps>> getAllGpsLocations() {
         List<Gps> gpsLocations = gpsManager.getAllGpsLocations();
         return ResponseEntity.ok(gpsLocations);
     }
 
-
+    //http://localhost:8090/gps/current
     @GetMapping("/current")
     public ResponseEntity<List<Gps>> getNewestGpsLocationsPerCar() {
         List<Gps> newestGpsLocations = gpsManager.getNewestGpsLocationsPerCar();
