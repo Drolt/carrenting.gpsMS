@@ -24,6 +24,8 @@ public class GpsController {
         gpsManager.createGpsRecord(gps);
     }
 
+
+
     @GetMapping
     public ResponseEntity<List<Gps>> getAllGpsLocations() {
         List<Gps> gpsLocations = gpsManager.getAllGpsLocations();
